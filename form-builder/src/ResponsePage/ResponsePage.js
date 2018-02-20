@@ -42,8 +42,8 @@ class ResponsePage extends Component {
 		this.refs.ans.value=' ';
 	}
 	selectValue(event) {
-		let answer_value = event.target.value;
-		let answer_value_string = answer_value.toString();
+		// let answer_value = event.target.value;
+		// let answer_value_string = answer_value.toString();
 		//if(answer_value.length > 2) {
 			//let answers = this.state.answers;
 			// answers.push(event.target.value);
@@ -84,18 +84,21 @@ class ResponsePage extends Component {
 			}				
 		}
 		
+		var ans = this.state.answers.map((answers, index)=> {
+			return <div key={index}>{answers}></div>
+		}) 
+		console.log(this.state.answers);
     //console.log("this.state.questionNumber",this.state.questionNumber)
 		 
 		return(
 			<div>
 				<div>
-					<span>{element}</span>
+					{element}{ans}
 				</div>
 				{/*<textarea className="textarea-style" type="text" id="question-text" rows="2" cols="50" 
 					placeholder="Please enter your question." onBlur={(e)=>this.props.selectValue(e, index)} 
 					style={{ display: 'inline-block'}}
 				/>*/}
-				<div>{this.state.answers}</div>
 				<textarea type="text" id="question-text" rows="2" cols="50" ref="ans"
 					placeholder="Please answer the question." onBlur={(e) => this.selectValue(e)}/>
 				
