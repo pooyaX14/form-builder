@@ -6,13 +6,14 @@ import AddQuestion from './AddQuestion/AddQuestion'
 import registerServiceWorker from './registerServiceWorker';
 import bootstrap from 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
-import ResponsePage from './ResponsePage/ResponsePage';
+//import ResponsePage from './ResponsePage/ResponsePage';
+import ResponsePageTest from './ResponsePageTest/ResponsePageTest.js';
 
 ReactDOM.render(
 	<BrowserRouter>	
 		<Switch>		
 			<Route path="/" exact component={AddQuestion}></Route>
-			<Route path="/responses" exact render={(props) => <ResponsePage {...props}/>}></Route>	
+			<Route path="/responses" exact render={(props) => <ResponsePageTest {...props}/>}></Route>
 		</Switch>
 	</BrowserRouter>, document.getElementById('root')
 )
