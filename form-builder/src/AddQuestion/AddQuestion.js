@@ -25,7 +25,8 @@ class AddQuestion extends Component {
 			isAddingQuestion: false,
 			questions:[],
 			questions_count:0,
-			quesid_anstype:{},
+			//quesid_anstype:{},
+			quesid_anstype:[],
 			add_form: false,
 			form_details: {} 
 		}
@@ -66,7 +67,23 @@ class AddQuestion extends Component {
 		// console.log(event.target.value);
 		// console.log(event.target.name);
 		var previous_quesid_anstype = this.state.quesid_anstype;
-
+		// var map = {}
+		// if(event.target.id === 'question-text') {
+		// 	console.log("inside question-text")
+		// 	 map["question"] = event.target.value;
+		// 	 map["type"] = "question";
+		// }
+		// else if(event.target.id === 'answerTypeSelect') {
+		// previous_quesid_anstype.concat(map["answer_type"] = event.target.value)
+		// 	if(!map["options"])
+		// 	{
+		// 	previous_quesid_anstype.concat(map["options"] = {0:null})
+		// 	}
+			
+		// }
+		// console.log("index is", index)
+		// console.log("map value is", map)
+		// previous_quesid_anstype.push(map)
 		if(!previous_quesid_anstype[index])
 				previous_quesid_anstype[index] ={}
 
@@ -80,6 +97,7 @@ class AddQuestion extends Component {
 				previous_quesid_anstype[index]["options"] = {0:""}
 			}
 		}
+		console.log("previous_quesid_anstype", previous_quesid_anstype)
 		this.setState({
 				quesid_anstype: previous_quesid_anstype
 		})
@@ -134,29 +152,7 @@ class AddQuestion extends Component {
   // 		.catch(function (error) {
   //   		console.log(error);
   // 		});
-		// // function sendPostRequest(url, type, data, callback){
-		// // 	console.log(data)
-		// // 		$.ajax({
-		// // 		   url: url,
-		// // 		   data: data,
-		// // 		   error: function(err) {
-		// // 		      console.log(err)
-		// // 		   },
-		// // 		   contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		// // 		   dataType: 'json',
-		// // 		   success: function(data) {
-		// // 		   		console.log("Request successful")
-		// // 		   		callback(data)
-		// // 		   },
-		// // 		   type: type
-		// // 		});
-		// // }
-
-
-
-		// sendPostRequest("http://localhost:3000/form", "POST", this.state.form_details, function(response){
-		// 	console.log(response);
-		// });
+		
 	}
 	submit() {
 		 axios.post('http://localhost:3000/form', {
@@ -201,6 +197,7 @@ class AddQuestion extends Component {
 
 					<FormButton createNewForm={this.createNewForm} />: 
 					
+					
 					<div className="container" style={{border: "1px solid black", height: "100%"}}>
 
 				 			<div>Question Builder: Product Feedback</div>
@@ -219,6 +216,7 @@ class AddQuestion extends Component {
 
 							<button className="alert alert-primary" onClick={this.submit} style={{float:"right"}}>Publish</button>
 					</div>
+
 				}
 				
 			</div>

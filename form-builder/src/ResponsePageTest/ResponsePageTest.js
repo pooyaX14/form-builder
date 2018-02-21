@@ -30,9 +30,9 @@ class ResponsePageTest extends Component {
 	}
 	render() {
 		return(
-			<div className="App">
-        <Chatroom chathistory={this.state.dummydata} questionNumber={this.state.questionNumber}/>
-      </div>
+		<div className="App">
+        <Chatroom chathistory={this.state.dummydata}/>
+    </div>
 		)
 	}
 }
