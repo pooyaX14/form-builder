@@ -6,7 +6,7 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 //import { AxiosProvider, Request, Get, Delete, Head, Post, Put, Patch, withAxios } from 'react-axios';
 import axios from 'axios';
 import FormButton from './FormButton';
-
+import { Link } from 'react-router-dom';
 
 var divStyle = {
   //color: 'white',
@@ -25,17 +25,20 @@ class AddQuestion extends Component {
 			isAddingQuestion: false,
 			questions:[],
 			questions_count:0,
-			//quesid_anstype:{},
-			quesid_anstype:[],
+			//form_questions_details:{},
+			form_questions_details:[],
 			add_form: false,
-			form_details: {} 
+			form_details: {},
+			form_url:"",
+			form_data_response:[] 
 		}
 		this.addQuestionText = this.addQuestionText.bind(this);
 		this.selectValue = this.selectValue.bind(this);
 		this.onInputTextUpdate = this.onInputTextUpdate.bind(this);
 		this.createNewForm = this.createNewForm.bind(this);
-		this.saveFormDetails = this.saveFormDetails.bind(this);
+		// this.saveFormDetails = this.saveFormDetails.bind(this);
 		this.submit = this.submit.bind(this);
+		//this.deleteQuestion = this.deleteQuestion.bind(this);
 	}
 	componentDidMount() {
 
@@ -64,105 +67,99 @@ class AddQuestion extends Component {
 	}
 
 	selectValue(event, index) {
-		// console.log(event.target.value);
-		// console.log(event.target.name);
-		var previous_quesid_anstype = this.state.quesid_anstype;
-		// var map = {}
+		var form_questions_details = this.state.form_questions_details;
+
+		//console.log(form_questions_details[index]);
+
+		if(form_questions_details[index] === undefined){
+				var map = {}
+				var textArea = document.getElementById("question-text-"+index);
+				map = {
+						content: textArea.value,
+						content_type: "question",
+						options: {0:null},
+						answer_type: event.target.value
+				};
+				form_questions_details.push(map)
+		}else{
+				form_questions_details[index]["answer_type"] = event.target.value;
+		}
+		
+		
+		 
+		// if(!previous_quesid_anstype[index])
+		// 		previous_quesid_anstype[index] ={}
+
 		// if(event.target.id === 'question-text') {
-		// 	console.log("inside question-text")
-		// 	 map["question"] = event.target.value;
-		// 	 map["type"] = "question";
+  //    	previous_quesid_anstype[index]["question"] = event.target.value; 
 		// }
 		// else if(event.target.id === 'answerTypeSelect') {
-		// previous_quesid_anstype.concat(map["answer_type"] = event.target.value)
-		// 	if(!map["options"])
+		// 	previous_quesid_anstype[index]["answer_type"] = event.target.value
+		// 	if(!previous_quesid_anstype[index]["options"])
 		// 	{
-		// 	previous_quesid_anstype.concat(map["options"] = {0:null})
+		// 		previous_quesid_anstype[index]["options"] = {0:""}
 		// 	}
-			
 		// }
-		// console.log("index is", index)
-		// console.log("map value is", map)
-		// previous_quesid_anstype.push(map)
-		if(!previous_quesid_anstype[index])
-				previous_quesid_anstype[index] ={}
-
-		if(event.target.id === 'question-text') {
-     	previous_quesid_anstype[index]["question"] = event.target.value; 
-		}
-		else if(event.target.id === 'answerTypeSelect') {
-			previous_quesid_anstype[index]["answer_type"] = event.target.value
-			if(!previous_quesid_anstype[index]["options"])
-			{
-				previous_quesid_anstype[index]["options"] = {0:""}
-			}
-		}
-		console.log("previous_quesid_anstype", previous_quesid_anstype)
+		// console.log("previous_quesid_anstype", previous_quesid_anstype)
 		this.setState({
-				quesid_anstype: previous_quesid_anstype
+				form_questions_details: form_questions_details
 		})
 	}
 
 	onInputTextUpdate(value, index, position){
-		var quesid_anstype = this.state.quesid_anstype;
-		quesid_anstype[index]["options"][position] =value
+		var form_questions_details = this.state.form_questions_details;
+		// here I am putting the values from the options textarea to form_questions_details object-> 
+		//form_questions_details[0]["options"][0] =value, form_questions_details[1]["options"][1] =value
+		form_questions_details[index]["options"][position] =value
 
 		this.setState({
-				quesid_anstype: quesid_anstype
+				form_questions_details: form_questions_details
 		})
 
 	}
-	saveFormDetails(event) {
-		console.log(event.target.value);
-		let form_details = this.state.form_details;
-		if(event.target.id === "title") {
-			form_details['title'] = event.target.value;
-		}
-		else if(event.target.id === "description") {
-			form_details['description'] = event.target.value;
-		}
+	// saveFormDetails(event) {
+	// 	// console.log(event.target.value);
+	// 	let form_details = this.state.form_details;
+	// 	if(event.target.id === "title") {
+	// 		form_details['title'] = event.target.value;
+	// 	}
+	// 	else if(event.target.id === "description") {
+	// 		form_details['description'] = event.target.value;
+	// 	}
 
-		//Here, save the form ID inside local storage
-		this.setState({
-			form_details: form_details
-		});
-
-		// var title = this.state.form_details.title,
-		// description = this.state.form_details.description;
-		//  axios.post('http://localhost:3000/form', {
-  //    	title:title,
-  //    	description: description
-  //   	}).then(function(response){
-  //    	console.log(response);
-  //  		 }).catch(function(error){
-  //   	console.log(error);
-    // });
-		// axios(
-  //    { 
-  //    	method: 'POST', 
-  //     url: 'http://localhost:3000/form', 
-  //     headers: { "Content-Type":"application/x-www-form-urlencoded"},
-  //     {
-  //   		title: "1234599999999",
-  //   		description:"this won't work either. Lol"
-  // 			}
-  //   	}).then(function (response) {
-  //   		console.log(response);
-  // 		})
-  // 		.catch(function (error) {
-  //   		console.log(error);
-  // 		});
+	// 	//Here, save the form ID inside local storage
+	// 	this.setState({
+	// 		form_details: form_details
+	// 	});
 		
-	}
+	// }
 	submit() {
-		 axios.post('http://localhost:3000/form', {
-     	title:"title  testing schema",
-     	form_description: "form_description"
-    	}).then(function(response){
-     	console.log(response);
-   		 }).catch(function(error){
-    	console.log(error);
-    }	);
+			var form_title = document.getElementById("title").value;
+			var form_description = document.getElementById("description").value;
+			var that = this;
+			if(this.state.form_questions_details.length > 0) {
+				axios.post('http://localhost:3000/form', {
+	     			form_title: form_title,
+	     			form_description: form_description,
+	     			questions: this.state.form_questions_details
+
+	    	}).then(function(response){
+	     			console.log(response.data._id); //formId
+	     			let formId= response.data._id;
+	     			let form_url = window.location.href+formId;
+	     			//console.log(form_url)
+	     			that.setState({
+	     				form_url:form_url,
+	     				form_data_response: response
+	     			})
+	     			console.log(form_url)
+	   		}).catch(function(error){
+	    			console.log(error);
+	    	});		
+	   }
+	   else {
+	   	//show some message
+	   }
 	}
 	createNewForm(event) {
 		this.setState({
@@ -170,54 +167,69 @@ class AddQuestion extends Component {
 		});
 
 	}
-
+	// deleteQuestion(form_question_details, deleteTextArea) {
+	// 	console.log("deleteQuestin is triggered", deleteTextArea);
+	// 	const form_questions_details = form_questions_details;
+	// 	console.log("form_questions_details", form_questions_details)
+	// 	if(deleteTextArea !== "") {
+	// 		const updated_form_list = form_questions_details.splice(deleteTextArea, 1);
+	// 		this.setState({
+	//       form_questions_details:updated_form_list
+	//     })		
+	// 	}
+	// }
 	render() {
-		console.log("this.state.quesid_anstype", this.state.quesid_anstype)
-		const  isAddingQuestion  = this.state;
+		// console.log("this.state.form_url", this.state.form_url);
+		// console.log("form_questions_details",this.state.form_questions_details);
+		// console.log("this.state.form_questions_details", this.state.form_questions_details)
+		const  {isAddingQuestion, form_data_response}  = this.state;
 
-		const questions = this.state.questions.map((AddTextar, index) => {
+		const questions = this.state.questions.map((singleQ, index) => {
 			let answer_type;
-			if(this.state.quesid_anstype[index] && this.state.quesid_anstype[index]["answer_type"])
+			if(this.state.form_questions_details[index] && this.state.form_questions_details[index]["answer_type"])
 			{
-				answer_type = this.state.quesid_anstype[index]["answer_type"]
+				answer_type = this.state.form_questions_details[index]["answer_type"]
 			}
 
-			let question_type = this.state.quesid_anstype[index]? this.state.quesid_anstype[index] :""
+			let question_type = this.state.form_questions_details[index]? this.state.form_questions_details[index] :""
 
   		return <AddTextarea key={ index } index={ index } answer_type={answer_type} 
   				onInputTextUpdate={this.onInputTextUpdate}
   				question_anstype={question_type} 
-  				selectValue ={this.selectValue} />	
+  				selectValue ={this.selectValue} deleteQuestion={this.deleteQuestion} form_questions_details={this.state.form_questions_details}/>	
     });
+
+    if(this.state.form_url.length !== 0) {
+    	let url="http://localhost:3001/form/"+form_data_response.data._id;
+			return (
+				<div>
+					<h4>Your form has been submitted. You can now share this URL to get responses!</h4>
+					<h5><Link to={`/form/${form_data_response.data._id}`}>{url}</Link></h5>
+				</div>
+			)
+		}
     	
 		return(
 			<div>
-				
-					{this.state.add_form === false ? 
-
-					<FormButton createNewForm={this.createNewForm} />: 
-					
 					
 					<div className="container" style={{border: "1px solid black", height: "100%"}}>
 
 				 			<div>Question Builder: Product Feedback</div>
 
 				 			<textarea className="textarea-style" id="title" type="text" name="question-title" rows="2" cols="50" 
-						  placeholder="Form Title" onBlur={this.saveFormDetails}/>
+						  placeholder="Form Title" />
 							
 							<textarea className="textarea-style" id="description" type="text" name="question-description" rows="2" cols="50" 
-							placeholder="Please write the description as well." onBlur={this.saveFormDetails}/>	
+							placeholder="Please write the description as well."/>	
 							
 							<div>
 							 { isAddingQuestion && questions }
 							</div>
 							
 							<button className="alert alert-primary" onClick={this.addQuestionText}>AddQuestion</button>
-
 							<button className="alert alert-primary" onClick={this.submit} style={{float:"right"}}>Publish</button>
-					</div>
-
-				}
+							{/*<button className="alert alert-primary" onClick={this.deleteQuestion>Delete</button>*/}
+					</div>		
 				
 			</div>
 			

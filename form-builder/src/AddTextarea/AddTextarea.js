@@ -13,12 +13,38 @@ class AddTextarea extends Component {
 			this.saveQuestion = this.saveQuestion.bind(this);
 			this.get_answer_type_element = this.get_answer_type_element.bind(this);
 			this.onAddButtonClick = this.onAddButtonClick.bind(this);
+			this.deleteTextArea = this.deleteTextArea.bind(this);
 			this.state={
 				defaultValue: "what's your name?",
 				radioButtonarr: [],
 				showRadioButton: false,
+				form_questions_details:[]
 			}
 		}
+	componentWillReceiveProps(nextProps) {
+		console.log("nextProps value inside AddTextarea ",nextProps);
+		//this.deleteTextArea("", nextProps.form_questions_details)
+		this.setState({
+			form_questions_details: nextProps.form_questions_details
+		})
+    // /ReactDOM.findDOMNode(this.refs.msg).value = ""
+	}
+	componentDidMount() {
+		this.setState({
+			form_questions_details: this.props.form_questions_details
+		})
+	}
+	deleteTextArea(index) {
+		console.log("index is now", index);
+		console.log("this.state.form_questions_details",this.state.form_questions_details);
+		// if(deleteTextArea !== "") {
+			var form_questions_details = this.state.form_questions_details;
+			var updated_form_list = form_questions_details.splice(index, 1);
+			this.setState({
+	      form_questions_details:updated_form_list
+	    })	
+		// }
+	}
 	saveQuestion(event) {
 			console.log(event.target.value);
 	}
@@ -30,7 +56,6 @@ class AddTextarea extends Component {
 		//this.props.onInputTextUpdate(value,index,position)
 		this.props.onInputTextUpdate("",index,position+1)
 	}
-
 	get_answer_type_element() {
 
 		let element = [];
@@ -99,16 +124,17 @@ class AddTextarea extends Component {
 
 		return <div>{element}</div>;
 }
-
 	render() {
-		console.log("AddTextarea is rendered");
+		// console.log("this.state.form_questions_details",this.state.form_questions_details);
 		var index = this.props.index;
 		var answer_type_element = this.props.answer_type? this.get_answer_type_element(): ""
 		return(
 			<div style={{"borderTop": "1px solid black"}}>
-				<textarea className="textarea-style" type="text" id="question-text" rows="2" cols="50" 
+				{/*<textarea className="textarea-style" type="text" id={"question-text-"+index} rows="2" cols="50" 
 					placeholder="Please enter your question." onBlur={(e)=>this.props.selectValue(e, index)} style={{ display: 'inline-block'}}/>
-
+*/}		<div>
+			<textarea className="textarea-style" type="text" id={"question-text-"+index} rows="2" cols="50" 
+					placeholder="Please enter your question." style={{ display: 'inline-block'}}/>
 				<div className="dropdown" style={{display: 'inline-block',top: '-50px',left: '51px', width:'30%'}}>
 				  <select className="custom-select" id="answerTypeSelect" onChange={(e)=>this.props.selectValue(e, index)}>
 				    <option defaultValue>Choose...</option>
@@ -120,6 +146,10 @@ class AddTextarea extends Component {
 				</div>
 
 				{answer_type_element}
+			
+			</div>
+			<button className="alert alert-primary" 
+				onClick={() => this.deleteTextArea(index)}>Delete</button>
 			</div>
 		)
 	}

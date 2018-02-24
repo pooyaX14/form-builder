@@ -12,8 +12,9 @@ import ResponsePageTest from './ResponsePageTest/ResponsePageTest.js';
 ReactDOM.render(
 	<BrowserRouter>	
 		<Switch>		
-			<Route path="/" exact component={AddQuestion}></Route>
-			<Route path="/responses" exact render={(props) => <ResponsePageTest {...props}/>}></Route>
+			<Route path="/" exact render={(props) => <AddQuestion {...props}/>}></Route>
+			<Route path="/form/:number" exact render={(props) => <ResponsePageTest {...props}/>}></Route>
+
 		</Switch>
 	</BrowserRouter>, document.getElementById('root')
 )
