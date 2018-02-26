@@ -20,7 +20,6 @@ class ResponseArea extends Component {
 
     }
     componentWillReceiveProps(nextProps){
-    	var inputChoices = [];
     	// for(let option_key in nextProps.options_object){
     	// 	inputChoices.push(nextProps.options_object[option_key])
     	// }
@@ -39,21 +38,21 @@ class ResponseArea extends Component {
     		options_object: this.props.options_object,
     	});
     }
-    toggleCheckbox(e) {
-    	var selectedCheckboxes = this.state.selectedCheckboxes;
-    	var index = selectedCheckboxes.indexOf(e.target.value)
-        if (index === -1) {
-          selectedCheckboxes.push(e.target.value);
+    // toggleCheckbox(e) {
+    // 	var selectedCheckboxes = this.state.selectedCheckboxes;
+    // 	var index = selectedCheckboxes.indexOf(e.target.value)
+    //     if (index === -1) {
+    //       selectedCheckboxes.push(e.target.value);
 
-        } else {
-        	selectedCheckboxes.splice(index, 1);
-        }
+    //     } else {
+    //     	selectedCheckboxes.splice(index, 1);
+    //     }
 
-        this.setState({
-        	selectedCheckboxes: selectedCheckboxes
-        });
+    //     this.setState({
+    //     	selectedCheckboxes: selectedCheckboxes
+    //     });
 
-    }
+    // }
     saveSelection(e){
     	e.preventDefault();
     	if(this.state.answer_type === "Paragraph"){
@@ -65,7 +64,7 @@ class ResponseArea extends Component {
     		var inputs = document.getElementsByName('responseInput');
     		var answer = "";
     		for(var i = 0; i < inputs.length; i++) {
-    		    if(inputs[i].checked == true) {
+    		    if(inputs[i].checked === true) {
     		        answer = inputs[i].value;
     		        break;
     		    }
@@ -124,20 +123,22 @@ class ResponseArea extends Component {
 
     	}else if(answer_type === "Checkboxes"){
     		var options_object = this.state.options_object;
-    		var selectedCheckboxes = this.state.selectedCheckboxes;
+    		// var selectedCheckboxes = this.state.selectedCheckboxes;
     		var isChecked = false;
     		for(let option_key in options_object) {
-    			
-    			if(selectedCheckboxes.indexOf(options_object[option_key]) !== -1){
-    				isChecked = true
-    			}else{
-    				isChecked = false
-    			}
+    			// show checkbox ticked only when the value is available in the selectedCheckboxes
+    			//console.log("selectedCheckboxes values are ", selectedCheckboxes);
+    			// if(selectedCheckboxes.indexOf(options_object[option_key]) !== -1){
+    			// 	isChecked = true
+    			// }else{
+    			// 	isChecked = false
+    			// }
 
     			responseArea.push(
     				<div key={option_key}>
 	                    <label>
-	                    	<input type="checkbox" name="checkboxResponseInput" value={options_object[option_key]} onChange={this.toggleCheckbox} checked={isChecked}/>
+{/*<input type="checkbox" name="checkboxResponseInput" value={options_object[option_key]} onChange={this.toggleCheckbox} checked={isChecked}/>*/}
+						<input type="checkbox" name="checkboxResponseInput" value={options_object[option_key]}/>
 	                    	{options_object[option_key]}
 	                    </label>
 	                </div>

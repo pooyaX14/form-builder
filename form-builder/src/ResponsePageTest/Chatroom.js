@@ -1,7 +1,4 @@
-import React, {
-    Component
-} from 'react';
-import ReactDOM from 'react-dom';
+import React, {Component} from 'react';
 import ResponseArea from './ResponseArea';
 import axios from 'axios';
 import './ResponsePageTest.css';

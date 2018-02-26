@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 // );
 class Message extends Component {
 	render() {
-		const {quiz_item,id, type} = this.props;
+		const {quiz_item, type} = this.props;
 		return(
 			<li className={`chat ${type === "question" ? "left" : "right"}`}>
 				{quiz_item.content}
@@ -20,6 +20,3 @@ class Message extends Component {
 
 export default Message;
 
-{/*<li className={`chat ${this.props.question === this.props.chat.question ? "left" : "right"}`}>
-{this.props.chathistory.question}
-</li>*/}

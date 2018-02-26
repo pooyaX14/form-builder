@@ -1,36 +1,39 @@
 import React, { Component } from 'react';
-import $ from 'jquery'
 import AddTextarea from '../AddTextarea/AddTextarea';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 //import {Grid, Row, Col, Navbar} from 'react-bootstrap';
 //import { AxiosProvider, Request, Get, Delete, Head, Post, Put, Patch, withAxios } from 'react-axios';
 import axios from 'axios';
-import FormButton from './FormButton';
+//import FormButton from './FormButton';
 import { Link } from 'react-router-dom';
+// import Pagination from "react-js-pagination";
+var shortid = require('shortid');
+// import "../../node_modules/bootstrap3/dist/css/bootstrap.min.css";
 
-var divStyle = {
-  //color: 'white',
-  //backgroundImage: 'url(' + imgUrl + ')',
-  //WebkitTransition: 'all', // note the capital 'W' here
-  //msTransition: 'all' // 'ms' is the only lowercase vendor prefix
-  border: '1px solid black',
-  padding: '21px 35px',
-  margin: '31px auto',
-  width: '90%',
-};
+// var divStyle = {
+//   //color: 'white',
+//   //backgroundImage: 'url(' + imgUrl + ')',
+//   //WebkitTransition: 'all', // note the capital 'W' here
+//   //msTransition: 'all' // 'ms' is the only lowercase vendor prefix
+//   border: '1px solid black',
+//   padding: '21px 35px',
+//   margin: '31px auto',
+//   width: '90%',
+// };
 class AddQuestion extends Component {
 	constructor() {
 		super();
 		this.state={
 			isAddingQuestion: false,
-			questions:[],
 			questions_count:0,
 			//form_questions_details:{},
 			form_questions_details:[],
 			add_form: false,
 			form_details: {},
 			form_url:"",
-			form_data_response:[] 
+			form_data_response:[],
+			activePage: 15,
+			questionId: ""
 		}
 		this.addQuestionText = this.addQuestionText.bind(this);
 		this.selectValue = this.selectValue.bind(this);
@@ -38,7 +41,9 @@ class AddQuestion extends Component {
 		this.createNewForm = this.createNewForm.bind(this);
 		// this.saveFormDetails = this.saveFormDetails.bind(this);
 		this.submit = this.submit.bind(this);
-		//this.deleteQuestion = this.deleteQuestion.bind(this);
+		this.handlePageChange = this.handlePageChange.bind(this);
+
+		this.deleteQuestion = this.deleteQuestion.bind(this);
 	}
 	componentDidMount() {
 
@@ -58,17 +63,41 @@ class AddQuestion extends Component {
 		})
 	}
 	addQuestionText() {
-		const questions = this.state.questions.concat(AddTextarea);
+		// const questions = this.state.questions.concat({});
+		var questions_count = this.state.questions_count;
+		questions_count++
+
 
 		this.setState({ 
 			isAddingQuestion: true,
-			questions: questions,
+			// questions: questions,
+			questions_count: questions_count,
 		});
+	}
+
+	deleteQuestion(index) {
+		console.log("index is now", index);
+		// if(deleteTextArea !== "") {
+			var form_questions_details = this.state.form_questions_details;
+			var questions_count = this.state.questions_count
+			form_questions_details.splice(index, 1);
+			questions_count--
+
+
+			this.setState({
+	      		form_questions_details: form_questions_details,
+	      		questions_count: questions_count
+	    	}, () => {
+	    		this.forceUpdate();
+	    	});
+
+	    	
+		// }
 	}
 
 	selectValue(event, index) {
 		var form_questions_details = this.state.form_questions_details;
-
+		console.log("selectValue"+index)
 		//console.log(form_questions_details[index]);
 
 		if(form_questions_details[index] === undefined){
@@ -78,9 +107,11 @@ class AddQuestion extends Component {
 						content: textArea.value,
 						content_type: "question",
 						options: {0:null},
-						answer_type: event.target.value
+						answer_type: event.target.value,
+						id: shortid.generate()
 				};
 				form_questions_details.push(map)
+				console.log("inside if", form_questions_details)
 		}else{
 				form_questions_details[index]["answer_type"] = event.target.value;
 		}
@@ -102,7 +133,7 @@ class AddQuestion extends Component {
 		// }
 		// console.log("previous_quesid_anstype", previous_quesid_anstype)
 		this.setState({
-				form_questions_details: form_questions_details
+			form_questions_details: form_questions_details
 		})
 	}
 
@@ -113,7 +144,7 @@ class AddQuestion extends Component {
 		form_questions_details[index]["options"][position] =value
 
 		this.setState({
-				form_questions_details: form_questions_details
+			form_questions_details: form_questions_details
 		})
 
 	}
@@ -178,63 +209,78 @@ class AddQuestion extends Component {
 	//     })		
 	// 	}
 	// }
+	handlePageChange(pageNumber) {
+    	console.log(`active page is ${pageNumber}`);
+    	this.setState({activePage: pageNumber});
+  	}
 	render() {
-		// console.log("this.state.form_url", this.state.form_url);
-		// console.log("form_questions_details",this.state.form_questions_details);
-		// console.log("this.state.form_questions_details", this.state.form_questions_details)
-		const  {isAddingQuestion, form_data_response}  = this.state;
 
-		const questions = this.state.questions.map((singleQ, index) => {
+		var {isAddingQuestion, form_data_response}  = this.state;
+
+		var AddTextareaElements = []
+
+		for(var index = 0; index < this.state.questions_count; index++){
 			let answer_type;
 			if(this.state.form_questions_details[index] && this.state.form_questions_details[index]["answer_type"])
 			{
 				answer_type = this.state.form_questions_details[index]["answer_type"]
 			}
-
-			let question_type = this.state.form_questions_details[index]? this.state.form_questions_details[index] :""
-
-  		return <AddTextarea key={ index } index={ index } answer_type={answer_type} 
+			//var id = shortid.generate();
+			var question_type;
+			if(this.state.form_questions_details[index]){
+				question_type = this.state.form_questions_details[index]
+				console.log("question_type inside if addquestion", question_type);
+			}else{
+				question_type = {
+					id: shortid.generate()
+				}
+				console.log("question_type inside if addquestion", question_type);
+			}
+			//let question_type = this.state.form_questions_details[index]? this.state.form_questions_details[index] : {id: id}
+			
+			
+			
+			AddTextareaElements.push(<AddTextarea key={ question_type.id } id={question_type.id} index={ index } answer_type={answer_type} 
   				onInputTextUpdate={this.onInputTextUpdate}
   				question_anstype={question_type} 
-  				selectValue ={this.selectValue} deleteQuestion={this.deleteQuestion} form_questions_details={this.state.form_questions_details}/>	
-    });
+  				selectValue ={this.selectValue} deleteQuestion={this.deleteQuestion} />)
+		}
 
-    if(this.state.form_url.length !== 0) {
-    	let url="http://localhost:3001/form/"+form_data_response.data._id;
-			return (
+
+	    if(this.state.form_url.length !== 0) {
+	    	let url="http://localhost:3001/form/"+form_data_response.data._id;
+				return (
+					<div>
+						<h4>Your form has been submitted. You can now share this URL to get responses!</h4>
+						<h5><Link to={`/form/${form_data_response.data._id}`}>{url}</Link></h5>
+					</div>
+				)
+			}
+	    	
+			return(
 				<div>
-					<h4>Your form has been submitted. You can now share this URL to get responses!</h4>
-					<h5><Link to={`/form/${form_data_response.data._id}`}>{url}</Link></h5>
+						<div className="container" style={{border: "1px solid black", height: "100%"}}>
+
+					 			<div>Question Builder: Product Feedback</div>
+					 			
+					 			<textarea className="textarea-style" id="title" type="text" name="question-title" rows="2" cols="50" 
+							  placeholder="Form Title" />
+								
+								<textarea className="textarea-style" id="description" type="text" name="question-description" rows="2" cols="50" 
+								placeholder="Please write the description as well."/>	
+								
+								<div>
+								 { isAddingQuestion && AddTextareaElements }
+								</div>
+								
+								<button className="alert alert-primary" onClick={this.addQuestionText}>AddQuestion</button>
+								<button className="alert alert-primary" onClick={this.submit} style={{float:"right"}}>Publish</button>
+								{/*<button className="alert alert-primary" onClick={this.deleteQuestion>Delete</button>*/}
+						</div>		
 				</div>
+				
 			)
 		}
-    	
-		return(
-			<div>
-					
-					<div className="container" style={{border: "1px solid black", height: "100%"}}>
-
-				 			<div>Question Builder: Product Feedback</div>
-
-				 			<textarea className="textarea-style" id="title" type="text" name="question-title" rows="2" cols="50" 
-						  placeholder="Form Title" />
-							
-							<textarea className="textarea-style" id="description" type="text" name="question-description" rows="2" cols="50" 
-							placeholder="Please write the description as well."/>	
-							
-							<div>
-							 { isAddingQuestion && questions }
-							</div>
-							
-							<button className="alert alert-primary" onClick={this.addQuestionText}>AddQuestion</button>
-							<button className="alert alert-primary" onClick={this.submit} style={{float:"right"}}>Publish</button>
-							{/*<button className="alert alert-primary" onClick={this.deleteQuestion>Delete</button>*/}
-					</div>		
-				
-			</div>
-			
-		)
-	}
 }
 
 export default AddQuestion;
