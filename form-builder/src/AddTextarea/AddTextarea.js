@@ -10,8 +10,11 @@ import DropdownButton from '../DropdownButton/DropdownButton';
 class AddTextarea extends Component {
 	constructor() {
 		super();
-		this.saveQuestion = this.saveQuestion.bind(this);
-		this.get_answer_type_element = this.get_answer_type_element.bind(this);		
+		this.state={
+			needAddAnotherbutton:false
+		}
+		this.get_answer_type_element = this.get_answer_type_element.bind(this);	
+		this.onAddButtonClick = this.onAddButtonClick.bind(this);
 	}	
 	onAddButtonClick(value,index,position){
 		this.setState({
