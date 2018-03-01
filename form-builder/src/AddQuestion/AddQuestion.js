@@ -22,7 +22,6 @@ class AddQuestion extends Component {
 		this.addQuestionText = this.addQuestionText.bind(this);
 		this.selectValue = this.selectValue.bind(this);
 		this.onInputTextUpdate = this.onInputTextUpdate.bind(this);
-		this.createNewForm = this.createNewForm.bind(this);
 		this.submit = this.submit.bind(this);
 		this.deleteQuestion = this.deleteQuestion.bind(this);
 	}
