@@ -16,14 +16,11 @@ class DropdownOptions extends Component {
 		this.setState({
 			inputTextValue: value,
 		})
-	 this.props.onInputTextUpdate(value,this.props.index,this.props.position)
-	 // this.props.onInputTextUpdate("1233",this.props.index,this.props.position+1)
+	 	this.props.onInputTextUpdate(value,this.props.index,this.props.position);
 	}
 	render() {
 		let needAddAnotherbutton = this.props.needAddAnotherbutton;
-		return(
-		
-					
+		return(					
 		  <li style={{"marginBottom": "22px"}}>
 		  	<input type="text" placeholder="Option1" onBlur={(e)=>this.onInputTextChangeValue(e)}/>
 			  {needAddAnotherbutton ? 
@@ -32,10 +29,8 @@ class DropdownOptions extends Component {
 		  		Add Other
 		  	</button>
 	   		:""}
-		  </li>
-	
-    	
-    )
+		  </li>   	
+    	)
 	}	
 }
 
