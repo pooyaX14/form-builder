@@ -7,7 +7,7 @@ class CheckboxButton extends Component {
 		this.state={
 			inputTextValue: ""
 		}
-		this.onInputTextChangeValue = this.onInputTextChangeValue.bind(this)
+		this.onInputTextChangeValue = this.onInputTextChangeValue.bind(this);
 	}
 	onInputTextChangeValue(event) {
 		let value = event.target.value;
@@ -16,12 +16,10 @@ class CheckboxButton extends Component {
 		this.setState({
 			inputTextValue: value,
 		})
-		if(this.props.resetneedAddAnotherbutton)
-	 this.props.resetneedAddAnotherbutton()
 	 this.props.onInputTextUpdate(value,this.props.index,this.props.position)
 	}
 	render() {
-		let needAddAnotherbutton = this.props.needAddAnotherbutton
+		let needAddAnotherbutton = this.props.needAddAnotherbutton;
 		return(
 			<div style={{"marginBottom": "22px"}}>
 				<input type="checkbox" id="contactChoice1" name="contact" value="ischecked"/>
