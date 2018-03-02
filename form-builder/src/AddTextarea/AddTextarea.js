@@ -29,9 +29,9 @@ class AddTextarea extends Component {
 			if(this.props.question_anstype)
 			{
 				let options = this.props.question_anstype["options"]
-				var i=0;
+				let i=0;
 				let options_length = Object.keys(options).length;
-				for(var answer in options)
+				for(let answer in options)
 				{		
 						let needAddAnotherbutton = (i === options_length-1);
 						let textValue = options[answer]
@@ -45,9 +45,9 @@ class AddTextarea extends Component {
 		else if(this.props.answer_type === choices.CHECKBOXES) {
 			if(this.props.answer_type) {
 				let checkboxOptions = this.props.question_anstype["options"]
-				i=0;
+				let i=0;
 				let checkbox_options_length = Object.keys(checkboxOptions).length;
-				for(var answer in checkboxOptions)
+				for(let answer in checkboxOptions)
 				{
 						let needAddAnotherbutton = i === checkbox_options_length-1 ;
 						element.push(<CheckboxButton index={this.props.index} onInputTextUpdate={this.props.onInputTextUpdate}
@@ -69,9 +69,9 @@ class AddTextarea extends Component {
 			let dropdownButton = "";
 			if(this.props.answer_type) {
 				let options = this.props.question_anstype["options"]
-				var i=0;
+				let i=0;
 				let options_length = Object.keys(options).length;
-				for(var answer in options)
+				for(let answer in options)
 				{		
 					let needAddAnotherbutton = (i === options_length-1);
 					let textValue = options[answer]
