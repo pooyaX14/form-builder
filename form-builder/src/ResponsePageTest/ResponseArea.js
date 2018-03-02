@@ -61,9 +61,9 @@ class ResponseArea extends Component {
     		paragraphInput.value = ""
 
     	}else if(this.state.answer_type === "MultipleChoice"){
-    		var inputs = document.getElementsByName('responseInput');
-    		var answer = "";
-    		for(var i = 0; i < inputs.length; i++) {
+    		let inputs = document.getElementsByName('responseInput');
+    		let answer = "";
+    		for(let i = 0; i < inputs.length; i++) {
     		    if(inputs[i].checked === true) {
     		        answer = inputs[i].value;
     		        break;
@@ -72,11 +72,12 @@ class ResponseArea extends Component {
     		this.props.submitMessage(answer, this.state.answer_type);
 
 
-    	}else if(this.state.answer_type === "Checkboxes"){
-    		var inputs = document.getElementsByName('checkboxResponseInput');
-    		var answer = "";
-    		for(var i = 0; i < inputs.length; i++) {
-    		    if(inputs[i].checked == true) {
+    	}
+        else if(this.state.answer_type === "Checkboxes"){
+    		let inputs = document.getElementsByName('checkboxResponseInput');
+    		let answer = "";
+    		for(let i = 0; i < inputs.length; i++) {
+    		    if(inputs[i].checked === true) {
     		    	answer = answer + " " + inputs[i].value;
     		    }
     		}
@@ -108,7 +109,7 @@ class ResponseArea extends Component {
     	
     	}else if(answer_type === "MultipleChoice"){
 
-    		var options_object = this.state.options_object;
+    		let options_object = this.state.options_object;
 
     		for(let option_key in options_object) {
     			responseArea.push(
@@ -121,10 +122,11 @@ class ResponseArea extends Component {
     			)
     		}
 
-    	}else if(answer_type === "Checkboxes"){
-    		var options_object = this.state.options_object;
+    	}
+        else if(answer_type === "Checkboxes"){
+    		let options_object = this.state.options_object;
     		// var selectedCheckboxes = this.state.selectedCheckboxes;
-    		var isChecked = false;
+    		let isChecked = false;
     		for(let option_key in options_object) {
     			// show checkbox ticked only when the value is available in the selectedCheckboxes
     			//console.log("selectedCheckboxes values are ", selectedCheckboxes);
