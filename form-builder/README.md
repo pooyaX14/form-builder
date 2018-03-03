@@ -29,5 +29,5 @@ cd form-builder
 npm install
 npm start run
 ``` 
--You should see question-builder running on [http://localhost:3000](http://localhost:3000)
-
+- You should see question-builder running on [http://localhost:3000](http://localhost:3000)
+ 
