@@ -30,7 +30,8 @@ p {
 
 .chatroom h3 {
   font-family: 'Pacifico', cursive;
-  background-color: rgba(30, 228, 148, 0.7);
+  /*background-color: rgba(30, 228, 148, 0.7);*/
+  background-color: #007bff40;
   color: #FFF;
   margin: 0;
   height: 40px;
@@ -83,16 +84,18 @@ p {
 .chatroom .input {
   height: 40px;
   width: 100%;
-  background: rgba(30, 228, 148, 0.7);
+  /*background: rgba(30, 228, 148, 0.7);*/
+  background: #007bff40;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
 .chatroom .input input[type="text"] {
-  background: rgba(255, 255, 255, 0.5);
+  /*background: rgba(255, 255, 255, 0.5);*/
+  background: rgba(255, 255, 255, 0.8);
   outline: 0;
-  border: 2px solid #1EE494;
+  border: 2px solid #007bff40;
   /*border: 2px solid #e9ecef;*/
   padding: 0 5px;
   border-top-left-radius: 5px;
@@ -106,7 +109,8 @@ p {
 
 .chatroom .input input[type="submit"] {
   background: transparent;
-  border: 1px solid #1EE494;
+  border: 1px solid #ffffffcc;
+  color:#fff;
   /*border: 2px solid #e9ecef;*/
   height: 30px;
   width: 70px;
@@ -119,7 +123,7 @@ p {
 }
 
 .chatroom .input input[type="submit"]:hover {
-  background: #1EE494;
+  background: #007bff40;
   /*background: #e9ecef;*/
   color: #FFF;
 }

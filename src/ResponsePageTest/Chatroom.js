@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import ResponseArea from './ResponseArea';
 import axios from 'axios';
 import './ResponsePageTest.css';
@@ -24,6 +25,17 @@ class Chatroom extends Component {
         }
         this.submitMessage = this.submitMessage.bind(this);
         this.nextQuestion = this.nextQuestion.bind(this);
+    }
+    componentDidMount() {
+        this.scrollToBot();
+    }
+
+    componentDidUpdate() {
+        this.scrollToBot();
+    }
+
+    scrollToBot() {
+        ReactDOM.findDOMNode(this.refs.chats).scrollTop = ReactDOM.findDOMNode(this.refs.chats).scrollHeight;
     }
     componentWillReceiveProps(props) {
         console.info("componentWillReceiveProps")
@@ -112,9 +124,7 @@ class Chatroom extends Component {
         
         if(currentQuestion !== undefined){
           responseArea = <ResponseArea ref="responseArea" answer_type={currentQuestion.answer_type} options_object={currentQuestion.options} submitMessage={this.submitMessage}/>
-        }
-
-        console.log(currentQuestion)          
+        }    
           return (
               <div className="chatroom">
                   <h3>{this.state.form_title}</h3>
