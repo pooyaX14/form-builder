@@ -1,7 +1,19 @@
 {
   "name": "form-builder",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "form-builder",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "author": "Purnima",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.14.12"
+  },
   "dependencies": {
     "axios": "^0.17.1",
     "bootstrap": "^4.0.0",
@@ -17,12 +29,8 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.0",
     "reactstrap": "^5.0.0-beta",
-    "shortid": "^2.2.8"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "shortid": "^2.2.8",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.3"
   }
 }

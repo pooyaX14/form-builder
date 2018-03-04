@@ -19,21 +19,18 @@ class ResponsePageTest extends Component {
 		response_url = response_url.replace("3001", 3000)
 		
 		axios.get(response_url).then((response) => {
-			console.log(response)
-     	// var data = response.data.
-     	if(Object.keys(response.data).length > 0) {
-     		this.setState({
-     			questionNumber:0
-     		})
-     	}
-     	console.log()
+     		if(Object.keys(response.data).length > 0) {
+	     		this.setState({
+	     			questionNumber:0
+	     		})
+     		}
 			this.setState({
 				form_data: response.data,
 				questions: response.data.questions
 			})
    		 }).catch(function(error){
     		console.log(error);
-    }	);
+    	});
 	}
 	render() {
 		return(

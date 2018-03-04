@@ -38,21 +38,21 @@ class ResponseArea extends Component {
     		options_object: this.props.options_object,
     	});
     }
-    // toggleCheckbox(e) {
-    // 	var selectedCheckboxes = this.state.selectedCheckboxes;
-    // 	var index = selectedCheckboxes.indexOf(e.target.value)
-    //     if (index === -1) {
-    //       selectedCheckboxes.push(e.target.value);
+    toggleCheckbox(e) {
+    	var selectedCheckboxes = this.state.selectedCheckboxes;
+    	var index = selectedCheckboxes.indexOf(e.target.value)
+        if (index === -1) {
+          selectedCheckboxes.push(e.target.value);
 
-    //     } else {
-    //     	selectedCheckboxes.splice(index, 1);
-    //     }
+        } else {
+        	selectedCheckboxes.splice(index, 1);
+        }
 
-    //     this.setState({
-    //     	selectedCheckboxes: selectedCheckboxes
-    //     });
+        this.setState({
+        	selectedCheckboxes: selectedCheckboxes
+        });
 
-    // }
+    }
     saveSelection(e){
     	e.preventDefault();
     	if(this.state.answer_type === "Paragraph"){
